@@ -1,4 +1,4 @@
-from snake import Snake, Direction
+from snake import Snake
 from food import Food
 
 class Game:

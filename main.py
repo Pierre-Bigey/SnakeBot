@@ -1,6 +1,6 @@
 from view import WindowView
 from game import Game
-from snake import Direction
+from utils.Direction import Direction
 from utils.config import FPS
 import time
 import random
