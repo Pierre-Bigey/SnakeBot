@@ -3,20 +3,18 @@ from SnakeBot.genetic_algorithm.individual import Individual
 
 
 class Population:
-    def __init__(self, population_size, genome_length, fitness_function, grid_size):
+    def __init__(self, size, grid_size, hidden_size, fitness_function, game_iterations):
         """Initialize the population with a list of individuals."""
-        self.population_size = population_size
-        self.genome_length = genome_length
+        self.size = size
         self.fitness_function = fitness_function
-        self.individuals = [Individual(genome_length) for _ in range(population_size)]
+        self.individuals = [Individual(grid_size, hidden_size, game_iterations) for _ in range(size)]
         self.grid_size = grid_size
 
     def evaluate_fitness(self):
         """Evaluate the fitness of each individual in the population."""
         for individual in self.individuals:
             # Make a copy of the game for each individual
-            game_copy = Game(self.grid_size)  # Reset game for each bot
-            individual.evaluate_fitness(game_copy, self.fitness_function)
+            individual.evaluate_fitness(self.grid_size, self.fitness_function)
 
     def get_best_individual(self):
         """Return the individual with the highest fitness score."""

@@ -1,5 +1,9 @@
+import numpy as np
+
 from snake import Snake
 from food import Food
+
+
 
 class Game:
     def __init__(self, grid_size):
@@ -14,6 +18,10 @@ class Game:
         """Update the game state : move snake, check for collisions, etc."""
 
         self.round += 1
+
+        #Stop the game if the snake has taken more than 100 step to eat a food
+        if self.round >= 100 * (len(self.snake.body)-2):
+            self.is_over = True
 
         if bot_direction:
             self.snake.change_direction(bot_direction)
@@ -41,17 +49,21 @@ class Game:
         }
 
     def get_state_matrix(self):
-        """Convert the game state into a matrix with 0 (empty), 1 (snake), 2 (food)."""
+        """Convert the game state into a matrix with 0 (empty), 1 (head), -50 (body), 25 (food)."""
         state_matrix = [[0 for _ in range(self.grid_size)] for _ in range(self.grid_size)]
 
-        # Add the snake to the matrix
-        for segment in self.snake.body:
-            state_matrix[segment[1]][segment[0]] = 1  # Mark snake's body as 1
+        # Add the snake's body to the matrix (use -50 for body)
+        for segment in self.snake.body[1:]:  # Skip the head
+            state_matrix[segment[1]][segment[0]] = -50
 
-        # Add the food to the matrix
+        # Add the snake's head to the matrix (use 10 for head)
+        head_x, head_y = self.snake.body[0]
+        state_matrix[head_y][head_x] = 1
+
+        # Add the food to the matrix (use 100 for food)
         food_x, food_y = self.food.position
-        state_matrix[food_y][food_x] = 2  # Mark food as 2
+        state_matrix[food_y][food_x] = 25
 
-        return state_matrix
+        return np.array(state_matrix) / 50  # Normalize the matrix to be between -1 and 1
 
 
