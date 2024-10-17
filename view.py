@@ -21,18 +21,24 @@ class WindowView:
         #The snake head is in lime color
 
         x, y = self.game.snake.body[0]
+        x += 1
+        y += 1
         self.canvas.create_rectangle(x * CELL_SIZE, y * CELL_SIZE,
                                      (x + 1) * CELL_SIZE, (y + 1) * CELL_SIZE,
                                      fill="lime")
 
         #Draw the snake body
         for x, y in self.game.snake.body[1:]:
+            x += 1
+            y += 1
             self.canvas.create_rectangle(x * CELL_SIZE, y * CELL_SIZE,
                                          (x + 1) * CELL_SIZE, (y + 1) * CELL_SIZE,
                                          fill="green")
 
         #Draw the food
         x, y = self.game.food.position
+        x += 1
+        y += 1
         self.canvas.create_rectangle(x * CELL_SIZE, y * CELL_SIZE,
                                      (x + 1) * CELL_SIZE, (y + 1) * CELL_SIZE,
                                      fill="red")

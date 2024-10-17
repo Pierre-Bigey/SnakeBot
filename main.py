@@ -57,9 +57,12 @@ def main(render= False):
 
 def play_from_file(file_name):
     """Play a game using a genome saved in a file."""
-    file = open("saves/"+file_name, "r")
-    genome = eval(file.read())
-    file.close()
+    with open("saves\\"+file_name, 'r') as file:
+        content = file.read()
+    content = content.strip('[]')
+    number_strings = content.split()
+    genome = [float(num) for num in number_strings]
+
     grid_size = 5
     game = Game(grid_size)
     view = WindowView(game)

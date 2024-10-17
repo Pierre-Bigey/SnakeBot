@@ -41,7 +41,7 @@ class Snake:
         head_x, head_y = self.body[0]
 
         # Check if the snake hits the walls
-        if head_x < 0 or head_x >= self.grid_size or head_y < 0 or head_y >= self.grid_size:
+        if head_x < 0 or head_x >= self.grid_size - 1 or head_y < 0 or head_y >= self.grid_size - 1:
             return True
 
         # Check if the snake hits itself
