@@ -13,7 +13,7 @@ class Individual:
         self.hidden_size = hidden_size
         self.game_iterations = game_iterations
 
-        input_size = grid_size * grid_size  # Flattened game state matrix
+        input_size = (grid_size + 2) * (grid_size + 2)  # Flattened game state matrix
         output_size = 4  # Four possible directions: up, down, left, right
 
         self.neural_network = NeuralNetwork(input_size, hidden_size, output_size)

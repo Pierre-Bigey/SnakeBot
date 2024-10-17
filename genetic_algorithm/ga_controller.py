@@ -85,5 +85,5 @@ class GAController:
 
 
         # Return the best individual after evolution
-        return self.population.get_best_individual()
+        return top_25_percent[0]
 

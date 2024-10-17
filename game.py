@@ -49,21 +49,28 @@ class Game:
         }
 
     def get_state_matrix(self):
-        """Convert the game state into a matrix with 0 (empty), 1 (head), -50 (body), 25 (food)."""
-        state_matrix = [[0 for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+        """Convert the game state into a matrix with 0 (empty), 1 (head), -50 (body), 25 (food).
+        It also add the walls with a weight of -50"""
+        state_matrix = [[0 for _ in range(self.grid_size + 2)] for _ in range(self.grid_size + 2)]
+
+        #Add -5 for each walls
+        for i in range(self.grid_size+2):
+            state_matrix[0][i] = -50
+            state_matrix[self.grid_size+1][i] = -50
+            state_matrix[i][0] = -50
+            state_matrix[i][self.grid_size + 1] = -50
 
         # Add the snake's body to the matrix (use -50 for body)
         for segment in self.snake.body[1:]:  # Skip the head
-            state_matrix[segment[1]][segment[0]] = -50
+            state_matrix[segment[0]+1][segment[1]+1] = -50
 
         # Add the snake's head to the matrix (use 10 for head)
         head_x, head_y = self.snake.body[0]
-        state_matrix[head_y][head_x] = 1
+        state_matrix[head_x + 1][head_y + 1] = 1
 
         # Add the food to the matrix (use 100 for food)
         food_x, food_y = self.food.position
-        state_matrix[food_y][food_x] = 25
+        state_matrix[food_x + 1][food_y + 1] = 25
 
         return np.array(state_matrix) / 50  # Normalize the matrix to be between -1 and 1
-
 

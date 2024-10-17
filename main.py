@@ -14,10 +14,10 @@ def fitness_function(game):
 def main(render= False):
 
     grid_size = 5
-    population_size = 80
-    hidden_size = 12
-    generations = 2000
-    game_iterations = 25
+    population_size = 60
+    hidden_size = 16
+    generations = 5000
+    game_iterations = 15
 
     # Initialize the genetic algorithm controller
     ga_controller = GAController(
@@ -66,8 +66,10 @@ def play_from_file(file_name):
     grid_size = 5
     game = Game(grid_size)
     view = WindowView(game)
-    individual = Individual(grid_size, 8, 30)
+    individual = Individual(grid_size, 16, 20)
     individual.genome = genome
+    individual.evaluate_fitness(grid_size, fitness_function)
+    print("Loaded Individual's Fitness:", individual.fitness)
     while not game.is_over:
         state = game.get_state_matrix()
         bot_direction = individual.decide_move(state)
