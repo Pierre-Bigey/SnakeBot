@@ -1,4 +1,4 @@
-from SnakeBot.genetic_algorithm.individual import Individual
+from genetic_algorithm.individual import Individual
 from view import WindowView
 from game import Game
 from utils.config import FPS

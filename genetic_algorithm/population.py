@@ -1,5 +1,5 @@
-from SnakeBot.game import Game
-from SnakeBot.genetic_algorithm.individual import Individual
+from game import Game
+from genetic_algorithm.individual import Individual
 
 
 class Population:

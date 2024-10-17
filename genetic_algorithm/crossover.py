@@ -1,6 +1,6 @@
 import random
 
-from SnakeBot.genetic_algorithm.individual import Individual
+from genetic_algorithm.individual import Individual
 
 
 def single_point_crossover(parent1, parent2):

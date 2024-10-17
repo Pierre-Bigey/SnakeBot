@@ -1,8 +1,8 @@
 import random
 
-from SnakeBot.game import Game
-from SnakeBot.utils.direction import Direction
-from SnakeBot.genetic_algorithm.neuralNetwork import NeuralNetwork
+from game import Game
+from utils.direction import Direction
+from genetic_algorithm.neuralNetwork import NeuralNetwork
 import numpy as np
 
 

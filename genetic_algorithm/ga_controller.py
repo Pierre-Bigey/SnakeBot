@@ -1,8 +1,8 @@
 import numpy as np
 
-from SnakeBot.genetic_algorithm.individual import Individual
-from SnakeBot.genetic_algorithm.mutation import mutate
-from SnakeBot.genetic_algorithm.population import Population
+from genetic_algorithm.individual import Individual
+from genetic_algorithm.mutation import mutate
+from genetic_algorithm.population import Population
 
 import matplotlib.pyplot as plt
 import matplotlib
