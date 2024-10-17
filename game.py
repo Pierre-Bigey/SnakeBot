@@ -40,4 +40,18 @@ class Game:
             "game_over": self.is_over
         }
 
+    def get_state_matrix(self):
+        """Convert the game state into a matrix with 0 (empty), 1 (snake), 2 (food)."""
+        state_matrix = [[0 for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+
+        # Add the snake to the matrix
+        for segment in self.snake.body:
+            state_matrix[segment[1]][segment[0]] = 1  # Mark snake's body as 1
+
+        # Add the food to the matrix
+        food_x, food_y = self.food.position
+        state_matrix[food_y][food_x] = 2  # Mark food as 2
+
+        return state_matrix
+
 

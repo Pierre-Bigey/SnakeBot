@@ -1,4 +1,4 @@
-from utils.Direction import Direction
+from utils.direction import Direction
 
 
 class Snake:
