@@ -1,8 +1,8 @@
 import numpy as np
 
-from genetic_algorithm.individual import Individual
-from genetic_algorithm.mutation import mutate
-from genetic_algorithm.population import Population
+from firstVersion.genetic_algorithm.individual import Individual
+from firstVersion.genetic_algorithm.mutation import mutate
+from firstVersion.genetic_algorithm.population import Population
 
 import matplotlib.pyplot as plt
 import matplotlib

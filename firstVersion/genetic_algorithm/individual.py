@@ -1,8 +1,8 @@
 import random
 
-from game import Game
-from utils.direction import Direction
-from genetic_algorithm.neuralNetwork import NeuralNetwork
+from firstVersion.game import Game
+from firstVersion.utils.direction import Direction
+from firstVersion.genetic_algorithm.neuralNetwork import NeuralNetwork
 import numpy as np
 
 

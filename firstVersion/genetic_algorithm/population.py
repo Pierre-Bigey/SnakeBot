@@ -1,5 +1,4 @@
-from game import Game
-from genetic_algorithm.individual import Individual
+from firstVersion.genetic_algorithm.individual import Individual
 
 
 class Population:
