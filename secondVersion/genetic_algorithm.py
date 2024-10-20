@@ -3,13 +3,14 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-
 from copy import deepcopy
 from neural_network import SnakeNet, choose_direction
 from game import Game
 from utils.config import *
+from multiprocessing import Pool
 
 matplotlib.use('TkAgg')
+
 
 class GeneticAlgorithm:
     def __init__(self):
@@ -26,7 +27,7 @@ class GeneticAlgorithm:
         # Initialize a population of SnakeNet models
         self.population = [SnakeNet() for _ in range(self.population_size)]
 
-        #Plotting
+        # Plotting
         self.x = np.array([])
         self.y = np.array([])
 
@@ -42,7 +43,6 @@ class GeneticAlgorithm:
         plt.xlabel("Generation")
         plt.ylabel("Best Fitness")
         plt.title("Updating plot...")
-
 
     def evaluate_fitness(self, model):
         """
@@ -72,6 +72,14 @@ class GeneticAlgorithm:
         # Return the average fitness over multiple games
         return total_fitness / self.game_per_snake
 
+    def parallel_evaluate_fitness(self, population):
+        """
+        Evaluate the fitness of the entire population in parallel using multiprocessing.
+        """
+        with Pool() as pool:
+            fitnesses = pool.map(self.evaluate_fitness, population)
+        return fitnesses
+
     def mutate(self, model):
         """
         Apply random mutations to the weights of a model.
@@ -96,8 +104,8 @@ class GeneticAlgorithm:
         for generation in range(self.generations):
             print(f"Generation {generation + 1}/{self.generations}")
 
-            # Evaluate fitness for the current population
-            fitnesses = [self.evaluate_fitness(model) for model in self.population]
+            # Evaluate fitness for the current population in parallel
+            fitnesses = self.parallel_evaluate_fitness(self.population)
             best_fitness = max(fitnesses)
             print(f"Best fitness: {best_fitness}\n")
             self.plot_new_point(best_fitness)
@@ -126,7 +134,7 @@ class GeneticAlgorithm:
             self.population = next_population
 
         # Return the best model from the final generation
-        final_fitnesses = [self.evaluate_fitness(model) for model in self.population]
+        final_fitnesses = self.parallel_evaluate_fitness(self.population)
         best_index = np.argmax(final_fitnesses)
         return self.population[best_index]
 

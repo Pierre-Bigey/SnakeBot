@@ -88,6 +88,7 @@ class Game:
         if new_head_row== self.food[0] and new_head_col == self.food[1]:
             self.snake = [(new_head_row, new_head_col)] + self.snake  # Grow the snake.
             self.place_food()  # Place new food.
+            self.energy = self.base_energy  # Reset energy.
         else:
             # Move the snake: add the new head and remove the tail.
             self.snake = [(new_head_row, new_head_col)] + self.snake[:-1]
