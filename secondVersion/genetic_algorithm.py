@@ -1,15 +1,15 @@
-import torch
 import random
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
+
 from copy import deepcopy
-from neural_network import SnakeNet, choose_direction
+from neural_network import *
 from game import Game
 from utils.config import *
+from runtimePlot import Plot
+
 from multiprocessing import Pool
 
-matplotlib.use('TkAgg')
+import time
 
 
 class GeneticAlgorithm:
@@ -28,21 +28,9 @@ class GeneticAlgorithm:
         self.population = [SnakeNet() for _ in range(self.population_size)]
 
         # Plotting
-        self.x = np.array([])
-        self.y = np.array([])
+        self.plot = Plot()
 
-        # enable interactive mode
-        plt.ion()
-
-        # creating subplot and figure
-        self.fig = plt.figure()
-        self.ax = self.fig.add_subplot(111)
-        self.line1, = self.ax.plot(self.x, self.y)
-
-        # setting labels
-        plt.xlabel("Generation")
-        plt.ylabel("Best Fitness")
-        plt.title("Updating plot...")
+        self.start_time = 0
 
     def evaluate_fitness(self, model):
         """
@@ -101,14 +89,13 @@ class GeneticAlgorithm:
         """
         Run the genetic algorithm for multiple generations.
         """
-        for generation in range(self.generations):
-            print(f"Generation {generation + 1}/{self.generations}")
 
+        self.start_time = time.time()
+
+        for generation in range(self.generations):
             # Evaluate fitness for the current population in parallel
             fitnesses = self.parallel_evaluate_fitness(self.population)
             best_fitness = max(fitnesses)
-            print(f"Best fitness: {best_fitness}\n")
-            self.plot_new_point(best_fitness)
 
             # Select the top-performing individuals
             top_performers = self.select_top_performers(self.population, fitnesses)
@@ -133,24 +120,30 @@ class GeneticAlgorithm:
             # Replace the population with the new generation
             self.population = next_population
 
+
+
+
+            #Compute remaining time
+            time_passed = time.time() - self.start_time
+            time_per_generation = time_passed / (generation+1)
+            remaining_generations = self.generations - generation - 1
+            remaining_time = time_per_generation * remaining_generations
+            remaining_minutes = int(remaining_time // 60)
+            remaining_seconds = int(remaining_time % 60)
+
+            print(f"Generation {generation + 1}/{self.generations}, best fitness: {best_fitness}")
+            print(f"Time passed: {time_passed:.2f}s, Time remaining: {remaining_minutes}m {remaining_seconds}s")
+            print("")
+
+            if self.plot.add_fitness(best_fitness):
+                save_best_model(top_performers[0], f"best_{int(best_fitness)}.pth")
+                return
+
+
         # Return the best model from the final generation
         final_fitnesses = self.parallel_evaluate_fitness(self.population)
         best_index = np.argmax(final_fitnesses)
+        save_best_model(self.population[best_index], f"final_{int(final_fitnesses)}.pth")
         return self.population[best_index]
 
-    def plot_new_point(self, best_fitness):
-        self.x = np.concatenate([self.x, [len(self.x)]])
-        self.y = np.concatenate([self.y, [best_fitness]])
 
-        self.line1.set_xdata(self.x)
-        self.line1.set_ydata(self.y)
-
-        # update xlin and ylim
-        self.ax.relim()
-        self.ax.autoscale_view()
-
-        # re-drawing the figure
-        self.fig.canvas.draw()
-
-        # to flush the GUI events
-        self.fig.canvas.flush_events()

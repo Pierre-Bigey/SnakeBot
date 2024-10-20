@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import os
 from utils.config import *
 
 
@@ -51,3 +51,36 @@ def choose_direction(model, game):
     # Convert the index back to a direction tuple (up, down, left, right)
     return DIR[direction_idx]
 
+
+def save_best_model(model, filename="best_01.pth"):
+    """
+    Save the best-performing model to a file.
+    :param model: The model to be saved (PyTorch model).
+    :param filename: The file path to save the model.
+    """
+
+
+    if not os.path.exists(SAVES_DIR):
+        os.makedirs(SAVES_DIR)
+
+    torch.save(model.state_dict(), SAVES_DIR+"/"+filename)
+    print(f"Best model saved to : "+SAVES_DIR+"/"+filename)
+
+
+def load_best_model(filename="best_01.pth"):
+    """
+    Load the best-performing model from a file.
+    :param filename: The file path to load the model from.
+    :return: The loaded model (PyTorch model).
+    """
+
+    if not os.path.exists(SAVES_DIR):
+        raise FileNotFoundError(f"The directory {SAVES_DIR} does not exist.")
+
+    file_path = os.path.join(SAVES_DIR, filename)
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"The file {file_path} does not exist.")
+
+    model = SnakeNet()
+    model.load_state_dict(torch.load(SAVES_DIR+"/"+filename))
+    return model
