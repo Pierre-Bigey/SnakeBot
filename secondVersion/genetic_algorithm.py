@@ -13,7 +13,7 @@ import time
 
 
 class GeneticAlgorithm:
-    def __init__(self):
+    def __init__(self, plot=True):
         self.population_size = POPUALTION_SIZE
         self.mutation_rate = MUTATION_RATE
         self.generations = GENERATIONS
@@ -27,8 +27,9 @@ class GeneticAlgorithm:
         # Initialize a population of SnakeNet models
         self.population = [SnakeNet() for _ in range(self.population_size)]
 
-        # Plotting
-        self.plot = Plot()
+        if plot:
+            # Plotting
+            self.plot = Plot()
 
         self.start_time = 0
 
@@ -38,9 +39,10 @@ class GeneticAlgorithm:
         returning the average fitness score.
         """
         total_fitness = 0
-
+        game = Game()
         for _ in range(int(self.game_per_snake)):
-            game = Game()
+
+            game.reset()
 
             while game.alive:
                 # Choose direction based on the model
@@ -120,11 +122,13 @@ class GeneticAlgorithm:
             # Replace the population with the new generation
             self.population = next_population
 
+            self.update_hyperparameters(best_fitness)
 
 
-
-            #Compute remaining time
+            # Compute remaining time
             time_passed = time.time() - self.start_time
+            time_passed_minutes = int(time_passed // 60)
+            time_passed_seconds = int(time_passed % 60)
             time_per_generation = time_passed / (generation+1)
             remaining_generations = self.generations - generation - 1
             remaining_time = time_per_generation * remaining_generations
@@ -132,7 +136,7 @@ class GeneticAlgorithm:
             remaining_seconds = int(remaining_time % 60)
 
             print(f"Generation {generation + 1}/{self.generations}, best fitness: {best_fitness}")
-            print(f"Time passed: {time_passed:.2f}s, Time remaining: {remaining_minutes}m {remaining_seconds}s")
+            print(f"Time passed: {time_passed_minutes}m {time_passed_seconds}s, Time remaining: {remaining_minutes}m {remaining_seconds}s")
             print("")
 
             if self.plot.add_fitness(best_fitness):
@@ -147,3 +151,30 @@ class GeneticAlgorithm:
         return self.population[best_index]
 
 
+    def update_hyperparameters(self, best_fitness):
+        #Update the hyperparameters during the training
+
+        if best_fitness > 800:
+            self.mutation_rate = MUTATION_RATE * 0.66
+            self.random_part = RANDOM_PART * 0.66
+
+        if best_fitness > 1000:
+            self.random_part = RANDOM_PART * 0.33
+            self.mutation_rate = MUTATION_RATE * 0.33
+
+        if best_fitness > 2500:
+            self.random_part = RANDOM_PART * 0.2
+            self.mutation_rate = MUTATION_RATE * 0.2
+            self.best_part = BEST_PART * 0.8
+            self.game_per_snake = GAME_PER_SNAKE * 1.5
+
+        if best_fitness > 10000 :
+            self.random_part = RANDOM_PART * 0.1
+            self.mutation_rate = MUTATION_RATE * 0.1
+            self.best_part = BEST_PART * 0.5
+
+        if best_fitness > 50000:
+            self.random_part = RANDOM_PART * 0.05
+            self.mutation_rate = MUTATION_RATE * 0.05
+            self.best_part = BEST_PART * 0.2
+            self.game_per_snake = GAME_PER_SNAKE * 2

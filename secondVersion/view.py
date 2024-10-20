@@ -12,9 +12,10 @@ class View:
 
 
         self.canvas = tk.Canvas(self.root, width= (GRID_SIZE + 2) * CELL_SIZE, height= (GRID_SIZE + 2) * CELL_SIZE)
-
-
         self.canvas.pack()
+
+
+
 
     def render(self, game):
         """Render the game state in the window"""
@@ -48,6 +49,13 @@ class View:
         self.canvas.create_rectangle(x * CELL_SIZE, y * CELL_SIZE,
                                      (x + 1) * CELL_SIZE, (y + 1) * CELL_SIZE,
                                      fill=FOOD_COLOR)
+
+        # Add a text to show the score
+        self.canvas.create_text(CELL_SIZE * (GRID_SIZE + 1) // 2, CELL_SIZE // 2,
+                                text=f"Score: {len(game.snake)-1}",
+                                font=("Helvetica", int(CELL_SIZE /2) ),
+                                fill="black")
+
 
         self.root.update()
 

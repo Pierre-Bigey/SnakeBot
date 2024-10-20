@@ -7,10 +7,13 @@ from view import View
 
 import time
 
+import cProfile
+
 def main():
     # Run the genetic algorithm to train a model
-    ga = GeneticAlgorithm()
-    ga.evolve_population()
+    with cProfile.Profile() as pr:
+        ga = GeneticAlgorithm()
+        ga.evolve_population()
 
 def load(model_name):
 
@@ -18,6 +21,12 @@ def load(model_name):
 
     # Load the best model from file
     model = load_best_model(model_name)
+
+    ga = GeneticAlgorithm(False)
+    ga.game_per_snake = GRID_SIZE * GRID_SIZE
+    fitness = ga.evaluate_fitness(model)
+
+    print(f"Fitness of the model: {fitness}")
 
     # Create a new game and view
     game = Game()
@@ -32,9 +41,10 @@ def load(model_name):
         view.render(game)
         time.sleep(1/FPS)
 
+    print(f"Game over! Score: {len(game.snake) - 1}")
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        load("best_429.pth")
+        load("best_11870.pth")
     else:
         main()
