@@ -1,27 +1,35 @@
 # GAME
-grid_size = 20
-energy = 100
+GRID_SIZE = 20
+ENERGY = 100
+# DIRECTIONS
+# UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3
+DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 # FITNESS
-fitness_per_food = 1000
-fitness_per_step = 1
+FITNESS_PER_FOOD = 1000
+FITNESS_PER_ROUND = 1
 
 
 # NEURAL NETWORK
-input_size = 32
-hidden_size_1 = 20
-hidden_size_2 = 20
-output_size = 4
+INPUT_SIZE = 32
+HIDDEN_SIZE_1 = 20
+HIDDEN_SIZE_2 = 20
+OUTPUT_SIZE = 4
 
 
 # GENETIC ALGORITHM
-population_size = 100
-generations = 1000
-game_per_snake = grid_size * grid_size / 4
+POPUALTION_SIZE = 100
+GENERATIONS = 50
+GAME_PER_SNAKE = GRID_SIZE * GRID_SIZE / 4
+MUTATION_RATE = 0.05
+
+BEST_PART = 0.25
+RANDOM_PART = 0.5
+
 
 # VIEW
-cell_size = 20
-snake_color = "green"
-snake_head_color = "lime"
-food_color = "red"
+CELL_SIZE = 20
+SNAKE_COLOR = "green"
+SNAKE_HEAD_COLOR = "lime"
+FOOD_COLOR = "red"
 
