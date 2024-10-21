@@ -85,8 +85,8 @@ class View:
         print(int(food[5]), "|", int(food[4]), "|", int(food[3]))
 
         print("\n\nBody")
-        print(int(body[7]), "|", int(body[0]), "|", int(body[1]))
-        print("---------")
-        print(int(body[6]), "| H |", int(body[2]))
-        print("---------")
-        print(int(body[5]), "|", int(body[4]), "|", int(body[3]))
+        print(str(round(body[7],2))+ "|" + str(round(body[0],2)) + "|" + str(round(body[1],2)))
+        print("-----------------")
+        print(str(round(body[6],2)) + "| H |" + str(round(body[2],2)))
+        print("-----------------")
+        print(str(round(body[5],2)) + "|" + str(round(body[4],2)) + "|" + str(round(body[3],2)))

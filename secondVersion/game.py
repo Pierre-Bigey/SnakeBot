@@ -137,10 +137,10 @@ class Game:
         vision[4] = (self.grid_size - head_row) / self.grid_size  # South
         vision[6] = head_col / self.grid_size  # West
 
-        vision[1] = 2 * min(vision[0], vision[2])  # North-East
-        vision[3] = 2 * min(vision[2], vision[4])
-        vision[5] = 2 * min(vision[4], vision[6])
-        vision[7] = 2 * min(vision[6], vision[0])
+        vision[1] = min(vision[0], vision[2])  # North-East
+        vision[3] = min(vision[2], vision[4])
+        vision[5] = min(vision[4], vision[6])
+        vision[7] = min(vision[6], vision[0])
 
         # Check if food is in each direction
         food_row, food_col = self.food
@@ -166,15 +166,15 @@ class Game:
 
         vision[8:16] = food_check
 
-        # For each direction, a value of 1 means that there is a body part in that direction.
+        # For each direction, give the distance to the nearest body part.
         # Check each direction and check if a body part is there.
-        body_check = [0, 0, 0, 0, 0, 0, 0, 0]
+        body_check = [1, 1, 1, 1, 1, 1, 1, 1]
         directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
         for direction in directions:
             line = [(head_row + i * direction[0], head_col + i * direction[1]) for i in range(1, self.grid_size)]
             for i in range(len(line)):
                 if line[i] in self.snake:
-                    body_check[directions.index(direction)] = 1
+                    body_check[directions.index(direction)] = i / self.grid_size
                     break
 
         vision[16:] = body_check
