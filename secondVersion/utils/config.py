@@ -1,6 +1,6 @@
 # GAME
 GRID_SIZE = 10
-ENERGY = 40
+ENERGY = GRID_SIZE * 4
 # DIRECTIONS
 # UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3
 DIR = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -21,12 +21,18 @@ SAVES_DIR = "saves"
 # GENETIC ALGORITHM
 POPUALTION_SIZE = 100
 GENERATIONS = 1000
-GAME_PER_SNAKE = GRID_SIZE * GRID_SIZE / 2
+GAME_PER_SNAKE = GRID_SIZE * GRID_SIZE / 3
 MUTATION_RATE = 0.05
 
-BEST_PART = 0.25
+BEST_PART = 0.15
 RANDOM_PART = 0.5
 
+STEPS =             [800,   1200,   2500,   7000,   15000,  40000]
+STEPS_MUTATION =    [0.8,   0.7,    0.5,    0.4,    0.2,   0.1]
+STEPS_RANDOM =      [0.8,  0.5,   0.4,    0.1,    0,        0]
+STEPS_BEST =        [1,     1.1,    1.4,    1.5,    2,    2]
+STEPS_GAME_P_SNAKE =[1,     1.2,    1.5,    2,    2.5,    2.5]
+STEPS_ENERGY =      [1,     0.9,    0.8,    0.7,    0.5,    0.5]
 
 # VIEW
 CELL_SIZE = 20
@@ -35,5 +41,5 @@ SNAKE_HEAD_COLOR = "lime"
 FOOD_COLOR = "red"
 FPS = 15
 
-SHOW_TIME = False
+SHOW_TIME = True
 
